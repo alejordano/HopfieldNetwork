@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-from dados_xlsx_2 import new_controle, new_tumor, new_controle2
+from dados_xlsx import new_controle, new_tumor, new_controle2
 import numpy as np
 from os import path
 from func import save_obj, load_obj
