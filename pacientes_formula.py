@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from binarying import tumor_binarizado, controle_binarizado, controle2_binarizado
 import numpy as np
 
 def pacientes_binarizados():
