@@ -16,30 +16,27 @@ dados_localizados = pacientes
 dados_cat = classificacao
 
 
-# tratado é quem está categorizado como 1
-    # controle é 0, controle 2 é 2.
-# vamos pegar a média de todos os pacientes com tratado
+# treated is categorized as 1
+    # control = 0, control 2 = 2.
+# median of all treated patients
 tratado = np.array([pacientes[x] for x in range(len(pacientes)) if dados_cat[x] == 1]).mean(axis=0)
-# controle é quem está categorizado como 0
-# vamos pegar a média de todos os pacientes controle
+# median of all control patients
 controle = np.array([pacientes[x] for x in range(len(pacientes)) if dados_cat[x] == 0]).mean(axis=0)
 controle2 = np.array([pacientes[x] for x in range(len(pacientes)) if dados_cat[x] == 2]).mean(axis=0)
-# teremos só 2 estados
-# os pontos médios de tratado e de controle
-# serão nossos atratores
+
+# will have only 2 states; median points from treated and control will be the attractors
+
 atratores_usados = [controle, tratado, controle2]
 atratores_classificacao = ["controle", "tratado", "controle"]
 
-# Vamos binarizar esses pontos médios
-# nossos dados tem que ser binários por causa
-# de Hopfield
+# Binarizing median points. The data needs to be binary because of Hopfield 
 binarized = []
 for atrator in atratores_usados:
     binarized.append([1 if x > 0.5 else 0 for x in atrator])
-# aqui salvamos nossos atratores binarizados
+# saving binarized attractors
 atratores = binarized
 
-# principal componente analysis com 2 componentes
+# PCA
 pca = PCA(n_components=2)
 pca.fit(pacientes)
 
@@ -48,8 +45,8 @@ print(
     2cp:{}".format(pca.explained_variance_ratio_[0],
                   pca.explained_variance_ratio_[1]))
 
-# se chamar este arquivo
-# faremos o gráfico do clusters
+# if this file exists
+# make plot from clusters
 if __name__ == "__main__":
     print("Preparando gráfico de clusters para plotar")
     # usaremos a biblioteca matplotlib para plotar

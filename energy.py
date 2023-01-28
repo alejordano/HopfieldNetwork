@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# GRÁFICO DE ENERGIA
+# energy graph
 
 # In[95]:
 

@@ -9,7 +9,7 @@ inativos = []
 for n in range(len(atratores[0])):
     inativo = 0
     for x in range(len(pacientes)):
-        if classificacao[x] == 0: #AQUI TEM QUE MUDAR (1 é tratado, 2 é controle 2 e 0 é controle 1)
+        if classificacao[x] == 0: #Needs to change (1 is treated, 2 is control 2 e 0 is control 1)
             if pacientes[x][n] == 1 and atratores[1][n] == 0:
                 inativo += 1
     inativos.append([inativo,n])

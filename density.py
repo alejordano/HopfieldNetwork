@@ -10,24 +10,23 @@ import numpy as np
 #from go import parametro_go
 from parametro_Interatoma import param_int
 
-# vamos começar ligando nossa rede de Hopfield
-# ela está no modo sync, que é syncromatic
+# start Hopfield network, sync mode
+
 dhnet = algorithms.DiscreteHopfieldNetwork(mode='sync')
-# vamos transformar nossos atratores em vetor
+# transform attractors in vectors 
 teste = np.array(atratores)
-# vamos treinar nossa rede de Hopfield
+# train Hopfield network
 dhnet.train(teste)
 controle_exemplo = atratores[1]
 
 
-# Vamos fazer o prunning na matrix de pesos
-# para garantir que chegue num resultado
+# Prunning weight matrix to ensure reaching a result
 #old_weigth = np.array(dhnet.weight, dtype=np.float)/dhnet.weight.max() #??
 #new_weigth = np.array(old_weigth)
 #new_weigth[abs(new_weigth) <= 0.3] = 0 #SUBSTITUIR PELO NUMERO DO ARTIGO
 #dhnet.weight = new_weigth
 
-# vamos ver os genes mais conectados agora
+# check genes with high density
 density = []
 #density = sorted(param_int, reverse = False)
 #print(density)

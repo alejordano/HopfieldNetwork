@@ -41,7 +41,7 @@ for x in range(len(samples2)):
  from neupy import algorithms
 
 dhnet = algorithms.DiscreteHopfieldNetwork(mode='sync')
-teste = np.array([atratores[0], atratores[1], atratores[2]])  #AQUI TEM QUE MUDAR NO SEGUNDO (1 é tratado, 2 é controle 2 e 0 é controle 1)
+teste = np.array([atratores[0], atratores[1], atratores[2]])  #needs to change (1 é tratreated, 2 is control 2 e 0 is control 1)
 dhnet.train(teste)
 pca = PCA(n_components=2)
 

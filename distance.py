@@ -13,8 +13,8 @@ pacientes_Convcontrole.append(dados_localizados[83])
 pacientes_Convcontrole.append(dados_localizados[139])
 
 pacientes_Convcancer = [dados_localizados[i] for i in range(len(dados_localizados)) if i % 2 == 1]
-del pacientes_Convcancer[6] # número do paciente + 1) /2 = posição. -1 porque começa com 0
-del pacientes_Convcancer[7] # -1 a cada um que foi retirado.
+del pacientes_Convcancer[6] # patient number + 1) /2 = position. -1 because python has 0 indexing
+del pacientes_Convcancer[7] # -1 to each one analysed.
 del pacientes_Convcancer[26]
 del pacientes_Convcancer[38]
 del pacientes_Convcancer[65]

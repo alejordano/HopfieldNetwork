@@ -64,32 +64,32 @@ else:
 
 if __name__ == "__main__":
     print("Preparando gráfico da binarização do controle para plotar")
-    # usaremos a biblioteca matplotlib para plotar
+    # using matplotlib
     import matplotlib.pyplot as plt
     import scipy.stats as mlab
     
-    # Tamanho do eixo X
+    # size of X axis
     x = np.linspace(expressaocontrole_log_mean - 3*expressaocontrole_log_std, expressaocontrole_log_mean + 3*expressaocontrole_log_std)
-    # Figura será 10 para 5
+    # figure will be 10 para 5
     plt.figure(figsize=(20,15))
-    # Plotando uma normal
+    # Plotting a normal
     #plt.plot(x,mlab.norm.pdf(x, expressao_log_mean, expressao_log_std)*100,linewidth=7.0)
-    # Plotando uma linha reta no meio
+    # Ploting a rect in the middle
     plt.plot([expressaocontrole_log_mean for x in range(400)], range(400),linewidth=3.0, color = 'red')
-    # O gráfico vai do 0 a 550 no eixo Y
+    # graph goes from 0 to 550 on Y axis
     plt.ylim([0, 60])
-    # texto informativo -> +1
+    # informative text -> +1
     plt.text(16, 30, "+1", color='red', fontweight='bold', fontsize=40)
-    # texto informativo -> 0
+    # informative text -> 0
     plt.text(6, 30, "0", color='red', fontweight='bold', fontsize=40)
     # label X
     plt.xlabel("Log of means of gene's expression", fontsize=20)
     # label Y
     plt.ylabel("Quantity of genes", fontsize=20)
-    # Aumentando o tamanho dos números
+    # increasing fontsize
     plt.xticks(fontsize=20)
     plt.yticks(fontsize=15)
-    # plotando como histograma
+    # plotting a histogram
     plt.hist(x=expressaocontrole_log, bins='auto', color='#0504aa',alpha=0.7, rwidth=0.85)
     #plt.show()
 

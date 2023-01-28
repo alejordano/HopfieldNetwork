@@ -10,24 +10,22 @@ from parametro_conservador import paramconservador
 #from go import parametro_go
 #from parametro_Interatoma import param_int
 
-# vamos começar ligando nossa rede de Hopfield
-# ela está no modo sync, que é syncromatic
+# Start Hopfiled network in sync mode
 dhnet = algorithms.DiscreteHopfieldNetwork(mode='sync')
-# vamos transformar nossos atratores em vetor
-teste = np.array([atratores[1], atratores[0]])  #ESSSA LINHA
-# vamos treinar nossa rede de Hopfield
+# transform attractors in vectors
+teste = np.array([atratores[1], atratores[0]]) 
+# train hopfiled network
 dhnet.train(teste)
 #controle_exemplo = atratores[1]
 
 
-# Vamos fazer o prunning na matrix de pesos
-# para garantir que chegue num resultado
+# Prunning weight matrix to ensure convergence
 #old_weigth = np.array(dhnet.weight, dtype=np.float)/dhnet.weight.max() #??
 #new_weigth = np.array(old_weigth)
 #new_weigth[abs(new_weigth) <= 0.3] = 0 #SUBSTITUIR PELO NUMERO DO ARTIGO
 #dhnet.weight = new_weigth
 
-# vamos ver os genes mais conectados agora
+# most connected
 density = []
 density = sorted(paramconservador, reverse = False)
 print(density)
@@ -46,17 +44,15 @@ print(density)
      #   density.append([float(soma)/len(dhnet.weight),x])
 #print("Quantidade de genes que podem ser desativados -> {}".format(len(density)))
 
-# vamos por em ordem
+# by connection order
 #density.sort() #menos conectaddos.
 #densityrev = sorted(density, reverse = True) #mais conectados.
 
 #print(densityrev)
 paciente_total = 0
-# Vamos começar agora com a inibição!!
-# Vamos testar várias inibições
-# de 1 a 50
+# Starting multiple inhibitions from 1 to 50
 rede_inibidos = range(20)
-# Sempre salvar a quantidade de cada paciente
+# saving amount of patients
 pacientes_recuperados_por_genes_inibidos = []
 pacientes_sem_saber_por_genes_inibidos = []
 pacientes_nao_recuperados_por_genes_inibidos = []
@@ -67,58 +63,49 @@ for inibidos in rede_inibidos:
     pacientes_sem_saber = 0
     pacientes_nao_recuperados = 0
     print("Inibidos: {}".format(inibidos))
-    # Vamos inibir dos nossos pacientes localizados
-    # os que fazem parte de um cluster 
+    # inhibiting samples localised in one of the clusters
     for paciente_numero in range(len(dados_localizados)):
-        # Só vamos testar em pacientes com tratado
-        # trocar aqui para 0 para testar controle
+        # Only treated patients; change to 0 to test control 
         if dados_cat[paciente_numero] == 0: #or dados_cat[paciente_numero] == 2:
-            # Um paciente por vez
+            # each patient 
             paciente = dados_localizados[paciente_numero]
             energia_inicial = dhnet.energy(np.array(paciente))[0]
             novo_paciente = np.array(paciente)
             genes_desativados = 0
-            # Se vamos testar mais de zero inibições
-            # Ao testar só zero pode dar um erro
-            # Então separei
+            # if we test more than zero inhibitions: 
             if inibidos != 0:
-                # Vamos sempre guardar os genes que foram inibidos
+                # save inhibitied genes
                 genes_inibidos = {}
-                # Vamos precisar por tentativas, por que
-                # muitas vezes existem menos de 10 genes para inibir
+                # Number of tries, we might have less than 10 options
                 tentativas = 0
-                # Só inibe se oo gene no controle exemplo 
-                # tiver inibido
-                # e o gene no paciente tiver expresso
+                # Only inhibit if it is inhibitied on the respective control and induced in tumor sample. 
                 while ((len(genes_inibidos.keys()) < inibidos) and (tentativas < 100)):
                     tentativas += 1
-                    # dentro da lista de genes para inibir
+                    # in each list of genes to inhibit 
                     for gene in density:
-                        # Se tiver inibido no atrator controle...
+                        # if it is inhibited on control attractor
                         if atratores[0][gene[1]] == 0:
-                            # Se tiver expresso no paciente
+                            # if it is expressed on tumor sample 
                             if novo_paciente[gene[1]] == 1:
-                                # inibindo
+                                # inhibiting 
                                 genes_inibidos[gene[1]] = 0
                                 novo_paciente[gene[1]] = 0
                                 break
-                # prevendo esse novo paciente que esta inibido
+                # checking new patient state 
                 # print(len(genes_inibidos.keys()))
                 estado = novo_paciente
             else:
                 estado = novo_paciente
 
             energia_final = dhnet.energy(np.array(estado))[0]
-            # verificando quem ele está mais perto
-            # Entre os dois atratores dados
+            # Verifying if it is closer to one of the attractors 
             if abs(energia_final) - abs(energia_inicial) > 3000:
                 pacientes_recuperados += 1
             else:
                 pacientes_nao_recuperados += 1
-            # Aqui guardamos e vemos se o paciente 
-            # virou tratado ou nao
+            # save and check sample's state 
 
-    # Guardamos as listas para cada quantidade de inibição
+    # saving lists to count the number of inhibitions 
     pacientes_nao_recuperados_por_genes_inibidos.append(
         pacientes_nao_recuperados)
     pacientes_sem_saber_por_genes_inibidos.append(
@@ -128,11 +115,10 @@ for inibidos in rede_inibidos:
 
 print(pacientes_recuperados_por_genes_inibidos)
 
-# se chamar este arquivo
-# faremos o gráfico do resultado de hopfield
+# make Hopfield network graph 
 if __name__ == "__main__":
     print("Preparando gráfico de Hopfield para plotar")
-    # usaremos a biblioteca matplotlib para plotar
+    # using matplotlib 
     import matplotlib.pyplot as plt
     import scipy.stats as mlab
     
